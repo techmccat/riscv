@@ -24,6 +24,7 @@ peripheral = []
 aclint = ["peripheral"]
 clint = ["peripheral"]
 plic = ["peripheral"]
+clic-sifive = ["peripheral"]
 
 [dependencies]
 bit_field = "0.10.0"

@@ -25,6 +25,24 @@ pub struct CLINT {
     pub mtimer: aclint::MTIMER,
 }
 
+#[cfg(feature = "clic-sifive")]
+pub mod clic;
+
+/// Interface for a CLIC peripheral
+///
+/// # Note
+///
+/// You need to set the `clic` feature to enable this peripheral
+#[allow(clippy::upper_case_acronyms)]
+#[cfg(feature = "clic-sifive")]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct CLIC {
+    /// CLINT-compatible region shared between harts
+    pub shared: CLINT,
+    /// Hart-specific region
+    pub hart0: clic::HartLocal,
+}
+
 // Platform-Level Interrupt Controller
 #[cfg(feature = "plic")]
 pub mod plic;
