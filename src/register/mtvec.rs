@@ -7,10 +7,19 @@ pub struct Mtvec {
 }
 
 /// Trap mode
+///
+/// # Notes
+///
+/// When operating in any of the CLIC modes, `address` should be at least 64-byte aligned
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum TrapMode {
     Direct = 0,
     Vectored = 1,
+    #[cfg(feature = "clic-sifive")]
+    ClicDirect = 2,
+    /// Exceptions set pc to `address`, interrupts set pc to [`mtvt`](crate::register::mtvt) + 4 × `mcause.code()`
+    #[cfg(feature = "clic-sifive")]
+    ClicVectored = 3,
 }
 
 impl Mtvec {
@@ -33,6 +42,8 @@ impl Mtvec {
         match mode {
             0 => Some(TrapMode::Direct),
             1 => Some(TrapMode::Vectored),
+            2 => Some(TrapMode::ClicDirect),
+            3 => Some(TrapMode::ClicVectored),
             _ => None,
         }
     }

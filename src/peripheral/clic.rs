@@ -1,7 +1,17 @@
+//! Core-Level Interrupt Controller (CLIC) peripheral.
+
 use crate::peripheral::common::{unsafe_peripheral, RW};
 use super::{CLIC, CLINT};
 
 impl CLIC {
+    /// Creates a new `CLIC` peripheral.
+    ///
+    /// Takes a base address for the shared region and a base
+    /// address for the hart0 region.
+    ///
+    /// # Safety
+    ///
+    /// Base addresses mnust point to a valid CLIC peripheral.
     pub unsafe fn new(shared: usize, hart0: usize) -> Self {
         Self {
             shared: CLINT::new(shared),

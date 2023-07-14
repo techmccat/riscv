@@ -77,6 +77,8 @@ pub mod mepc;
 pub mod mip;
 pub mod mscratch;
 pub mod mtval;
+#[cfg(feature = "clic-sifive")]
+pub mod mtvt;
 
 // Machine Protection and Translation
 mod pmpcfgx;

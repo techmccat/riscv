@@ -1,5 +1,8 @@
 //! mcause register
 
+#[cfg(feature = "clic-sifive")]
+use bit_field::BitField;
+
 /// mcause register
 #[derive(Clone, Copy, Debug)]
 pub struct Mcause {
@@ -135,6 +138,38 @@ impl Mcause {
     #[inline]
     pub fn is_exception(&self) -> bool {
         !self.is_interrupt()
+    }
+
+    /// Machine Previous Interrupt Enable field from the mstatus register
+    /// 
+    /// This field is only available in CLIC mode
+    #[cfg(feature = "clic-sifive")]
+    #[inline]
+    pub fn mpie(&self) -> bool {
+        self.bits.get_bit(27)
+    }
+
+    /// Supervisor Previous Privilege Mode field from the mstatus register
+    ///
+    /// This field is only available in CLIC mode
+    #[cfg(feature = "clic-sifive")]
+    #[inline]
+    pub fn mpp(&self) -> super::mstatus::MPP {
+        match self.bits.get_bits(28..30) {
+            0b00 => super::mstatus::MPP::User,
+            0b01 => super::mstatus::MPP::Supervisor,
+            0b11 => super::mstatus::MPP::Machine,
+            _ => unreachable!(),
+        }
+    }
+
+    /// Hardware vectoring is in progress when set
+    /// 
+    /// This field is only available in CLIC mode
+    #[cfg(feature = "clic-sifive")]
+    #[inline]
+    pub fn minhv(&self) -> bool {
+        self.bits.get_bit(30)
     }
 }
 
