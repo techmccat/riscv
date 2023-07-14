@@ -42,6 +42,14 @@
 //! This feature enables the `riscv::peripheral::PLIC` struct, which provides access to the
 //! [Platform-Level Interrupt Controller (PLIC) peripheral](https://github.com/riscv/riscv-plic-spec/blob/master/riscv-plic.adoc).
 //! PACs may use this feature to provide a homogenous interface to PLIC peripherals among targets.
+//!
+//! ## `clic-sifive`
+//!
+//! This feature enables the `riscv::peripheral::CLIC` struct, which provides access to the
+//! [Core-Local Interrupt Controller (CLIC)
+//! peripheral (version 20180831)](https://github.com/riscv/riscv-fast-interrupt/blob/c896ef621db0f86262e3a9e3f3a0618868c136d4/clic.adoc)
+//! as described in the [SiFive E24 Core Complex Manual](https://www.starfivetech.com/uploads/e24_core_complex_manual_21G1.pdf).
+//! PACs may use this feature to provide a homogenous interface to CLIC peripherals among targets.
 
 #![no_std]
 #![allow(clippy::missing_safety_doc)]
