@@ -42,7 +42,9 @@ impl Mtvec {
         match mode {
             0 => Some(TrapMode::Direct),
             1 => Some(TrapMode::Vectored),
+            #[cfg(feature = "clic-sifive")]
             2 => Some(TrapMode::ClicDirect),
+            #[cfg(feature = "clic-sifive")]
             3 => Some(TrapMode::ClicVectored),
             _ => None,
         }
