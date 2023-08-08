@@ -3,6 +3,11 @@
 use bit_field::BitField;
 
 /// mip register
+///
+/// # Note
+///
+/// This register is hardwired to zero when operating in CLIC mode
+/// and replaced by the clicIntIP registers
 #[derive(Clone, Copy, Debug)]
 pub struct Mip {
     bits: usize,

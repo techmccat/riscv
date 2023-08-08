@@ -11,6 +11,11 @@ pub struct Mtvec {
 pub enum TrapMode {
     Direct = 0,
     Vectored = 1,
+    #[cfg(feature = "clic-sifive")]
+    ClicDirect = 2,
+    /// Exceptions set pc to `address`, interrupts set pc to [`mtvt`](crate::register::mtvt) + 4 × `mcause.code()`
+    #[cfg(feature = "clic-sifive")]
+    ClicVectored = 3,
 }
 
 impl Mtvec {
@@ -33,6 +38,10 @@ impl Mtvec {
         match mode {
             0 => Some(TrapMode::Direct),
             1 => Some(TrapMode::Vectored),
+            #[cfg(feature = "clic-sifive")]
+            2 => Some(TrapMode::Direct),
+            #[cfg(feature = "clic-sifive")]
+            3 => Some(TrapMode::Vectored),
             _ => None,
         }
     }

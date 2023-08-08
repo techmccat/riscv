@@ -3,6 +3,11 @@
 use bit_field::BitField;
 
 /// mie register
+///
+/// # Note
+///
+/// This register is hardwired to zero when operating in CLIC mode
+/// and replaced by the clicIntIE registers
 #[derive(Clone, Copy, Debug)]
 pub struct Mie {
     bits: usize,
