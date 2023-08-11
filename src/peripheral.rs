@@ -42,3 +42,39 @@ impl<const BASE: usize, const CONTEXT: usize> PLIC<BASE, CONTEXT> {
         }
     }
 }
+
+// Core-level Interrupt Controller
+#[cfg(feature = "clic-sifive")]
+pub mod clic;
+
+/// Interface for a CLIC peripheral
+///
+/// # Note
+///
+/// You need to set the `clic-sifive` feature to enable this peripheral
+#[allow(clippy::upper_case_acronyms)]
+#[cfg(feature = "clic-sifive")]
+#[derive(Default)]
+pub struct CLIC<const SHARED: usize, const HART: usize> {
+    _marker: PhantomData<*const ()>,
+}
+
+#[cfg(feature = "clic-sifive")]
+impl<const SHARED: usize, const HART: usize> CLIC<SHARED, HART> {
+    /// Pointer to the shared CLINT register block
+    pub const SHARED: *const self::clic::shared::RegisterBlock = SHARED as *const _;
+    /// Pointer to the HART-specific register block
+    pub const HART: *const self::clic::hart::RegisterBlock = HART as *const _;
+
+    /// Creates a new interface for the CLIC peripheral. PACs can use this
+    /// function to add a CLIC interface to their `Peripherals` struct.
+    pub fn new() -> Self {
+        // initializes nlBits to 4, allocating all 4 writable bits in clicIntCfg to the interrupt
+        // preemption level.
+        // TODO: some safe way of setting both levels and priorities
+        unsafe { (*Self::HART).clic_cfg.write(4 << 1) };
+        Self {
+            _marker: PhantomData,
+        }
+    }
+}

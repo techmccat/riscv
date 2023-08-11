@@ -31,7 +31,7 @@
 pub mod asm;
 pub mod delay;
 pub mod interrupt;
-#[cfg(feature = "plic")]
+#[cfg(any(feature = "plic", feature = "clic-sifive"))]
 pub mod peripheral;
 pub mod register;
 
