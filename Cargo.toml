@@ -21,6 +21,7 @@ targets = [
 [features]
 critical-section-single-hart = ["critical-section/restore-state-bool"]
 plic = ["volatile-register"]
+clic = ["volatile-register"]
 clic-sifive = ["volatile-register"]
 
 [dependencies]
